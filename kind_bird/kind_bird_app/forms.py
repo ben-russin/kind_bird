@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from .models import Bite, Profile
+from .models import Chirp, Profile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User 
 
@@ -18,18 +18,18 @@ class ProfilePicForm(forms.ModelForm):
         model = Profile
         fields = ('profile_image', 'profile_bio', 'homepage_link', 'instagram_link', 'linkedin_link', 'twitter_link',)
 
-class BiteForm(forms.ModelForm):
+class ChirpForm(forms.ModelForm):
     body = forms.CharField(required=True,
         widget=forms.widgets.Textarea(
             attrs={
-                "placeholder": "Write Your Bite",
+                "placeholder": "Write Your Chirp",
                 "class": "form-control",
             }
             ),
             label="",
         )
     class Meta:
-        model = Bite
+        model = Chirp
         exclude = ("user", "likes",)
 
 class SignUpForm(UserCreationForm):

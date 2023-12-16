@@ -9,8 +9,8 @@
             <div class="col-8">
                 <h1>{{ profile.user.username }}'s Profile</h1>
                 <br/>
-                {% if bites %}
-                    {% for bite in bites %}
+                {% if chirps %}
+                    {% for chirp in chirps %}
                         <div class="alert alert-dark" role="alert">
                             <div class="container">
                                 <div class="row">
@@ -22,21 +22,21 @@
                                         {% endif %}
                                     </div>
                                     <div class="col-10">
-                                        {{ bite.body }} <br/>
+                                        {{ chirp.body }} <br/>
                                         <small class="text-muted">
-                                            ({{ bite.created_at }}) By @{{ bite.user.username }}
-                                            - {{bite.num_likes}} Likes 
-                                            {% if user in bite.likes.all %}
-                                            <a href="{% url 'bite_like' bite.id %}">i class="fa-solid fa-heart" style="color:red; width: 24px; display: inline-block;"></i></a>
+                                            ({{ chirp.created_at }}) By @{{ chirp.user.username }}
+                                            - {{chirp.num_likes}} Likes 
+                                            {% if user in chirp.likes.all %}
+                                            <a href="{% url 'chirp_like' chirp.id %}"><i class="fa-solid fa-heart" style="color:red; width: 24px; display: inline-block;"></i></a>
                                             {% else %}
-                                            <a href="{% url 'bite_like' bite.id %}"><i class="fa fa-heart-o" style="color:red; width: 24px; display: inline-block;"></i></a>
+                                            <a href="{% url 'chirp_like' chirp.id %}"><i class="fa fa-heart-o" style="color:red; width: 24px; display: inline-block;"></i></a>
                                             {% endif %}
                                             
-                                            <a href="{% url 'bite_show' bite.id %}"><i class="fa fa-share" style="color:rgb(105, 105, 105); width: 24px; display: inline-block;"></i></a>
+                                            <a href="{% url 'chirp_show' chirp.id %}"><i class="fa fa-share" style="color:rgb(105, 105, 105); width: 24px; display: inline-block;"></i></a>
 
                                             {% if request.user.username == profile.user.username %}
-                                            <a href="{% url 'delete_bite' bite.id %}"><i class="fa-solid fa-trash-can" style="color:rgb(105, 105, 105); width: 24px; display: inline-block;"></i></a>
-                                            <a href="{% url 'edit_bite' bite.id %}"><i class="fa-solid fa-edit" style="color:rgb(105, 105, 105); width: 24px; display: inline-block;"></i></a>
+                                            <a href="{% url 'delete_chirp' chirp.id %}"><i class="fa-solid fa-trash-can" style="color:rgb(105, 105, 105); width: 24px; display: inline-block;"></i></a>
+                                            <a href="{% url 'edit_chirp' chirp.id %}"><i class="fa-solid fa-edit" style="color:rgb(105, 105, 105); width: 24px; display: inline-block;"></i></a>
                                             {% endif %}
                                         </small>
                                     </div>
@@ -52,6 +52,9 @@
                 <br/><br/><br/>
                 {% if profile.profile_image %}
                     <img src="{{ profile.profile_image.url }}" class="rounded-circle" alt="{{ profile.user.username }}" style="object-fit: cover; width: 200px; height: 200px;">
+                    <br/><br/>
+                {% else %}
+                    <img src="{% static 'images/default_profile_pic.jpg' %}" class="rounded-circle" alt="{{ profile.user.username }}" style="object-fit: cover; width: 200px; height: 200px;">
                     <br/><br/>
                 {% endif %}
                 

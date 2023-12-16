@@ -14,24 +14,24 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-1">
-                                {% if bite.user.profile.profile_image %}
-                                    <img src="{{ bite.user.profile.profile_image.url }}" class="rounded-circle" alt="@{{ bite.user.username }}" style="object-fit: cover; width: 50px; height: 50px; display: block;">
+                                {% if chirp.user.profile.profile_image %}
+                                    <img src="{{ chirp.user.profile.profile_image.url }}" class="rounded-circle" alt="@{{ chirp.user.username }}" style="object-fit: cover; width: 50px; height: 50px; display: block;">
                                 {% else %}
-                                    <img src="{% static 'images/default_profile_pic.jpg' %}" class="rounded-circle" alt="@{{ bite.user.username }}" style="object-fit: cover; width: 50px; height: 50px; display: block;">
+                                    <img src="{% static 'images/default_profile_pic.jpg' %}" class="rounded-circle" alt="@{{ chirp.user.username }}" style="object-fit: cover; width: 50px; height: 50px; display: block;">
                                 {% endif %}
                             </div>
                             <div class="col-10">
-                                {{ bite.body }} <br/>
+                                {{ chirp.body }} <br/>
                                 <small class="text-muted">
-                                    ({{ bite.created_at }}) By @{{ bite.user.username }}
-                                    - {{bite.num_likes}} Likes - 
+                                    ({{ chirp.created_at }}) By @{{ chirp.user.username }}
+                                    - {{chirp.num_likes}} Likes - 
 
-                                    {% if user in bite.likes.all %}
-                                    <a href="{% url 'bite_like' bite.id %}">
+                                    {% if user in chirp.likes.all %}
+                                    <a href="{% url 'chirp_like' chirp.id %}">
                                         <i class="fa-solid fa-heart" style="color:red; width: 24px; display: inline-block;"></i>
                                     </a>
                                     {% else %}
-                                    <a href="{% url 'bite_like' bite.id %}">
+                                    <a href="{% url 'chirp_like' chirp.id %}">
                                         <i class="fa fa-heart-o" style="color:red; width: 24px; display: inline-block;"></i>
                                     </a>
                                     {% endif %}
@@ -42,15 +42,15 @@
                 </div><br/><br/>
             
 
-        
+        </div>
 
-        
+        <div class="col-4">
             <br/><br/><br/>
             {% if form %}
                 <form method=POST>
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button type="submit" class="btn btn-secondary">Edit Bite</button>
+                    <button type="submit" class="btn btn-secondary">Post Chirp</button>
                 </form>
             {% endif %}
         </div>

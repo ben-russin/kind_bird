@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .models import Profile, Bite
-from .forms import BiteForm, SignUpForm, ProfilePicForm
+from .models import Profile, Chirp
+from .forms import ChirpForm, SignUpForm, ProfilePicForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
@@ -10,25 +10,25 @@ from django.contrib.auth.models import User
 
 def home(request):
     if request.user.is_authenticated:
-        form = BiteForm(request.POST or None)
+        form = ChirpForm(request.POST or None)
         if request.method == "POST":
             if form.is_valid():
-                bite = form.save(commit=False)
-                bite.user = request.user
-                bite.save()
-                messages.success(request, ("Bite Posted"))
+                chirp = form.save(commit=False)
+                chirp.user = request.user
+                chirp.save()
+                messages.success(request, ("Chirp Posted"))
                 return redirect('home')
 
 
-        bites = Bite.objects.all().order_by("-created_at")
-        return render(request, 'home.html', {"bites":bites, "form":form})
+        chirps = Chirp.objects.all().order_by("-created_at")
+        return render(request, 'home.html', {"chirps":chirps, "form":form})
     else:
-        bites = Bite.objects.all().order_by("-created_at")
-        return render(request, 'home.html', {"bites":bites})
+        chirps = Chirp.objects.all().order_by("-created_at")
+        return render(request, 'home.html', {"chirps":chirps})
 
 def profile_list(request):
     if request.user.is_authenticated:
-        profiles = Profile.objects.exclude(user=request.user)
+        profiles = Profile.objects.all()
         return render(request, 'profile_list.html', {'profiles':profiles})
     else:
         messages.success(request, ("You Must Be Logged In To View This Page"))
@@ -68,7 +68,7 @@ def follow(request, pk):
 def profile(request, pk):
     if request.user.is_authenticated:
         profile = Profile.objects.get(user_id=pk)
-        bites = Bite.objects.filter(user_id=pk).order_by("-created_at")
+        chirps = Chirp.objects.filter(user_id=pk).order_by("-created_at")
         #Post Form Logic
         if request.method == "POST":
             # Get current user
@@ -83,7 +83,7 @@ def profile(request, pk):
             # Save the profile
             current_user_profile.save()
 
-        return render(request, "profile.html", {"profile":profile, "bites":bites})
+        return render(request, "profile.html", {"profile":profile, "chirps":chirps})
     else:
         messages.success(request, ("You Must Be Logged In To View This Page"))
         return redirect('home')
@@ -168,64 +168,64 @@ def update_user(request):
         messages.success(request, ("You Must Be Logged In To View This Page 😔"))
         return redirect('home')
     
-def bite_like(request, pk):
+def chirp_like(request, pk):
     if request.user.is_authenticated:
-        bite = get_object_or_404(Bite, id=pk)
-        if bite.likes.filter(id=request.user.id):
-            bite.likes.remove(request.user)
+        chirp = get_object_or_404(Chirp, id=pk)
+        if chirp.likes.filter(id=request.user.id):
+            chirp.likes.remove(request.user)
         else:
-            bite.likes.add(request.user)
+            chirp.likes.add(request.user)
         return redirect(request.META.get("HTTP_REFERER"))
     
     else:
         messages.success(request, ("You Must Be Logged In To View This Page 😔"))
         return redirect('home')
     
-def bite_show(request, pk):
-    bite = get_object_or_404(Bite, id=pk)
-    if bite:
-        return render(request, "show_bite.html", {'bite':bite})
+def chirp_show(request, pk):
+    chirp = get_object_or_404(Chirp, id=pk)
+    if chirp:
+        return render(request, "show_chirp.html", {'chirp':chirp})
     else:
-        messages.success(request, ("That Bite Does Not Exist"))
+        messages.success(request, ("That Chirp Does Not Exist"))
         return redirect('home')
 
-def delete_bite(request, pk):
+def delete_chirp(request, pk):
     if request.user.is_authenticated:
-        bite = get_object_or_404(Bite, id=pk)
-        if request.user.username == bite.user.username:
-            bite.delete()
-            messages.success(request, "Your Bite Has Been Deleted")
-            # Add delete logic here if needed, e.g. bite.delete()
+        chirp = get_object_or_404(Chirp, id=pk)
+        if request.user.username == chirp.user.username:
+            chirp.delete()
+            messages.success(request, "Your Chirp Has Been Deleted")
+            # Add delete logic here if needed, e.g. chirp.delete()
             return redirect(request.META.get("HTTP_REFERER"))
         else:
             messages.error(request, "That's Not Your Property")
             return redirect('home')
     else:
-        messages.error(request, "You need to be logged in to delete a bite")
+        messages.error(request, "You need to be logged in to delete a chirp")
         return redirect('login')  
     
-def edit_bite(request, pk):
+def edit_chirp(request, pk):
     if request.user.is_authenticated:
-        # Find the bite
-        bite = get_object_or_404(Bite, id=pk)
+        # Find the chirp
+        chirp = get_object_or_404(Chirp, id=pk)
 
-        # Check if the logged-in user is the owner of the bite
-        if request.user.username == bite.user.username:
+        # Check if the logged-in user is the owner of the chirp
+        if request.user.username == chirp.user.username:
             if request.method == "POST":
-                form = BiteForm(request.POST, instance=bite)
+                form = ChirpForm(request.POST, instance=chirp)
                 if form.is_valid():
                     form.save()  # Since user is already set, no need to set it again
-                    messages.success(request, ("Your Bite Has Been Edited"))
+                    messages.success(request, ("Your Chirp Has Been Edited"))
                     return redirect('home')
                 else:
                     # Form is not valid, render the page with form errors
-                    return render(request, "edit_bite.html", {'form': form, 'bite': bite})
+                    return render(request, "edit_chirp.html", {'form': form, 'chirp': chirp})
             else:
                 # GET request, show the form for the first time
-                form = BiteForm(instance=bite)
-                return render(request, "edit_bite.html", {'form': form, 'bite': bite})
+                form = ChirpForm(instance=chirp)
+                return render(request, "edit_chirp.html", {'form': form, 'chirp': chirp})
         else:
-            # User is not the owner of the bite
+            # User is not the owner of the chirp
             messages.error(request, "That's Not Your Property")
             return redirect('home')
     else:
@@ -238,7 +238,7 @@ def search(request):
         # Grab the form field input
         search = request.POST['search']
         # Search the database
-        searched = Bite.objects.filter(body__contains = search)
+        searched = Chirp.objects.filter(body__contains = search)
 
         return render(request, 'search.html', {'search':search, 'searched':searched})
     else:

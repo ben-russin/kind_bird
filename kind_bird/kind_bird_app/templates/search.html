@@ -3,14 +3,14 @@
 {% block content %}
 
 
-<h1>Search Bites</h1>
+<h1>Search Chirps</h1>
 <br/>
 
 <form method=POST>
 {% csrf_token %}
-<input type="input" class="form-control" placeholder="search bites" name="search">
+<input type="input" class="form-control" placeholder="search chirps" name="search">
 <br/>        
-    <button type="submit" class="btn btn-secondary">Search Bite</button>
+    <button type="submit" class="btn btn-secondary">Search Chirp</button>
 </form>
 <br>
 
@@ -18,36 +18,36 @@
 <h3>You Searched For: {{ search }}</h3>
 <br>
 
-{% for bite in searched %}
+{% for chirp in searched %}
 
     <div class="alert alert-dark" role="alert">
         <div class="container">
             <div class="row">
                 <div class="col-1">
-                    {% if bite.user.profile.profile_image %}
-                        <img src="{{ bite.user.profile.profile_image.url }}" class="rounded-circle" alt="@{{ bite.user.username }}" style="object-fit: cover; width: 50px; height: 50px; display: block;">
+                    {% if chirp.user.profile.profile_image %}
+                        <img src="{{ chirp.user.profile.profile_image.url }}" class="rounded-circle" alt="@{{ chirp.user.username }}" style="object-fit: cover; width: 50px; height: 50px; display: block;">
                     {% else %}
-                        <img src="{% static 'images/default_profile_pic.jpg' %}" class="rounded-circle" alt="@{{ bite.user.username }}" style="object-fit: cover; width: 50px; height: 50px; display: block;">
+                        <img src="{% static 'images/default_profile_pic.jpg' %}" class="rounded-circle" alt="@{{ chirp.user.username }}" style="object-fit: cover; width: 50px; height: 50px; display: block;">
                     {% endif %}
                 </div>
                 <div class="col-10">
-                    {{ bite.body }} <br/>
+                    {{ chirp.body }} <br/>
                     <small class="text-muted">
-                        ({{ bite.created_at }}) 
-                        By @{{ bite.user.username }}
+                        ({{ chirp.created_at }}) 
+                        By @{{ chirp.user.username }}
                         
-                        - {{bite.num_likes}}
+                        - {{chirp.num_likes}}
                         &nbsp;
-                        {% if user in bite.likes.all %}
-                        <a href="{% url 'bite_like' bite.id %}">
+                        {% if user in chirp.likes.all %}
+                        <a href="{% url 'chirp_like' chirp.id %}">
                             <i class="fa-solid fa-heart" style="color:red" width: 24px; display: inline-block;></i></a>
                         {% else %}
-                        <a href="{% url 'bite_like' bite.id %}">
+                        <a href="{% url 'chirp_like' chirp.id %}">
                             <i class="fa fa-heart-o" style="color:red"; width: 24px; display: inline-block;></i></a>
                         {% endif %}
                         
                         &nbsp;
-                        <a href="{% url 'bite_show' bite.id %}">
+                        <a href="{% url 'chirp_show' chirp.id %}">
                             <i class="fa fa-share" style="color:gray" width: 24px; display: inline-block;></i>
                         </a>
                         

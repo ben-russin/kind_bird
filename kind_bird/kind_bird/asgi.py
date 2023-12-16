@@ -1,5 +1,5 @@
 """
-ASGI config for bitter project.
+ASGI config for kind_bird project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bitter.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kind_bird.settings')
 
 application = get_asgi_application()

@@ -1,7 +1,7 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'home' %}">Bitter</a>
+      <a class="navbar-brand" href="{% url 'home' %}">Kind Bird</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -31,7 +31,7 @@
           {% endif %}
           <!-- Original search nav-item
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'search' %}">Search Bites</a>
+            <a class="nav-link" href="{% url 'search' %}">Search Chirps</a>
           </li>
           -->
 
@@ -40,7 +40,7 @@
               Search
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'search' %}">Search Bites</a></li>
+              <li><a class="dropdown-item" href="{% url 'search' %}">Search Chirps</a></li>
               <li><a class="dropdown-item" href="{% url 'search_user' %}">Search Users</a></li>
             </ul>
           </li>

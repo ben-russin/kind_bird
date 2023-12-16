@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class BitterAppConfig(AppConfig):
+class KindBirdAppConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'bitter_app'
+    name = 'kind_bird_app'

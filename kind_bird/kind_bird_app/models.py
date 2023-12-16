@@ -2,16 +2,16 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
-#create "bite" model
+#create "chirp" model
 
-class Bite(models.Model):
+class Chirp(models.Model):
     user = models.ForeignKey(
-        User, related_name="bites",
+        User, related_name="chirps",
         on_delete=models.DO_NOTHING
         )
     body = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
-    likes = models.ManyToManyField(User, related_name="bite_like", blank=True)
+    likes = models.ManyToManyField(User, related_name="chirp_like", blank=True)
 
     # Keep Count Of Likes
 

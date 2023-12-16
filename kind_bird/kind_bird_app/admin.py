@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group, User
-from .models import Profile, Bite
+from .models import Profile, Chirp
 
 # Register your models here.
 
@@ -24,5 +24,5 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 #admin.site.register(Profile)
 
-#Register Bites
-admin.site.register(Bite)
+#Register Chirps
+admin.site.register(Chirp)
