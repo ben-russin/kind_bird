@@ -2,7 +2,7 @@ Kind Bird is a twitter-like application, adapted and enhanced from a Codemy tuto
 
 https://www.youtube.com/watch?v=KXunlJgeRcU&list=PLCC34OHNcOtoQCR6K4RgBWNi3-7yGgg7b
 
-The initial commit of this project contains the basic functions of a full stack social media application:
+This commit of this project contains the basic functions of a full stack social media application:
 
 • User Accounts
 • User Profiles
